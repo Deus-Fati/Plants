@@ -54,9 +54,8 @@ button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font
     <h2>Условия содержания</h2>
     <div id="conditions" class="instruction" style="line-height:1.5; font-size:0.95rem;">
       <p><strong>Свет:</strong> <span id="sunHours"></span> в день.</p>
-      <p><strong>Температура:</strong> Оптимальная температура: <span id="tempRange"></span> °C.</p>
+      <p><strong>Температура:</strong> <span id="tempRange"></span> °C.</p>
       <p><strong>Кормление:</strong> <span id="feedingInfo"></span></p>
-      <p><strong>Что нельзя давать:</strong> <span id="feedingNo"></span></p>
       <p><strong>Полив:</strong> <span id="wateringInfo"></span></p>
       <p><strong>Пересадка:</strong> <span id="repotInfo"></span></p>
     </div>
@@ -117,17 +116,16 @@ function buildInstructions() {
   // Кормление
   let feedingInfo = '';
   let feedingNo = '';
-  if (cond.N.length === 2) feedingInfo = `Можно кормить живыми насекомыми: мухами, комарами, пауками.`;
+  if (cond.N.length === 2) feedingInfo = `Можно кормить 1-2 раза живыми насекомыми: мухами, комарами и пауками.`;
   else if (cond.N.length === 1) feedingInfo = "Кормление не требуется — растение готовится к спячке.";
   else feedingInfo = "Растение в состоянии покоя, кормить не нужно.";
-  
-  feedingNo = "Не давать мясо, хлеб, фрукты, обработанных насекомых и химические вещества.";
 
+  
   // Полив
-  let wateringInfo = "Использовать только мягкую, дистиллированную или дождевую воду. Почва должна быть влажной, но не залитой. Поливать снизу через поддон.";
+  let wateringInfo = "Использовать только дистиллированную или дождевую воду. Почва должна быть влажной, но не залитой. Поливать снизу через поддон.";
 
   // Пересадка
-  let repotInfo = month === 3 ? "Можно пересаживать в свежий субстрат из торфа и песка." : "Пересадка не рекомендуется.";
+  let repotInfo = month === 3 ? "Можно пересаживать в свежий субстрат из торфа и песка." : "В этот период пересадка не рекомендуется.";
 
   document.getElementById('sunHours').textContent = sunHours;
   document.getElementById('tempRange').textContent = tempRange;
