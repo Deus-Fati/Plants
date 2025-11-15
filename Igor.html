@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Игорь — Условия содержания и полив</title>
+<title>Игорь — Условия содержания</title>
 <style>
 body {
   font-family: 'Verdana', sans-serif;
@@ -45,7 +45,7 @@ button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font
 
 <div class="container">
   <h1>Игорь</h1>
-  <h1>Условия содержания и полив</h1>
+  <h1>Условия содержания</h1>
   <!-- Фаза растения -->
   <div id="plantPhase"></div>
 
@@ -109,10 +109,10 @@ const consts = getSeasonConstants(month);
 
 // Фаза растения
 function getPlantPhase(m) {
-  if (3 <= m && m <= 5) return "Фаза: Активный рост";
-  if (6 <= m && m <= 8) return "Фаза: Максимальная активность";
-  if (9 <= m && m <= 11) return "Фаза: Подготовка к спячке";
-  return "Фаза: Спячка";
+  if (3 <= m && m <= 5) return "Фаза активного роста";
+  if (6 <= m && m <= 8) return "Фаза максимальной активности";
+  if (9 <= m && m <= 11) return "Фаза подготовки к спячке";
+  return "Фаза спячки";
 }
 
 // Построение инструкций
