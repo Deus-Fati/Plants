@@ -37,6 +37,10 @@ button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font
 .btn-reset { background:#444; color:#e0f0c0; margin-left:10px; }
 .btn-reset:hover { background:#666; }
 #result { font-weight:bold; font-size:1.1rem; margin-top:5px; color:#cde79c; }
+
+.instruction p { margin:6px 0; }
+.instruction strong { color:#a8c686; }
+.instruction ul { margin:4px 0 8px 20px; }
 </style>
 </head>
 <body>
@@ -45,11 +49,20 @@ button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font
   <h1>Игорь</h1>
   <h1>Условия содержания и полив</h1>
 
+  <!-- Блок условий содержания -->
   <div class="section">
     <h2>Условия содержания</h2>
-    <pre id="conditions"></pre>
+    <div id="conditions" class="instruction" style="line-height:1.5; font-size:0.95rem;">
+      <p><strong>Свет:</strong> <span id="sunHours"></span> в день.</p>
+      <p><strong>Температура:</strong> Оптимальная температура: <span id="tempRange"></span> °C.</p>
+      <p><strong>Кормление:</strong> <span id="feedingInfo"></span></p>
+      <p><strong>Что нельзя давать:</strong> <span id="feedingNo"></span></p>
+      <p><strong>Полив:</strong> <span id="wateringInfo"></span></p>
+      <p><strong>Пересадка:</strong> <span id="repotInfo"></span></p>
+    </div>
   </div>
 
+  <!-- Блок расчета воды -->
   <div class="section">
     <h2>Расчёт потребления воды в сутки</h2>
 
@@ -76,9 +89,11 @@ button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font
 </div>
 
 <script>
-// Условия содержания
+// Текущий месяц
 const now = new Date();
 const month = now.getMonth() + 1;
+
+// Функции для условий содержания
 function getSeasonConditions(m) {
   if (3 <= m && m <= 5) return { hnu: [8,10], t: [15,25], N: [0,1] };
   if (6 <= m && m <= 8) return { hnu: [12,14], t: [20,30], N: [1,2] };
@@ -91,17 +106,37 @@ function getSeasonConstants(m) {
   if (9 <= m && m <= 11) return { hnu: 7, T_season: 10, k_season: 0.6 };
   return { hnu: 5, T_season: 5, k_season: 0.2 };
 }
-const cond = getSeasonConditions(month);
 const consts = getSeasonConstants(month);
-function buildMessages() {
-  let msg = `Игорь должен проводить на солнце ${cond.hnu[0]}–${cond.hnu[1]}ч в день при температуре ${cond.t[0]}–${cond.t[1]}C°. `;
-  if (cond.N.length === 2) msg += `В месяц Игорь должен съедать ${cond.N[0]}–${cond.N[1]} насекомых.`;
-  else if (cond.N.length === 1) msg += "В этом месяце Игоря кормить не надо, он готовится к спячке.";
-  else msg += "Игорь спит, не трогайте его.";
-  if (month === 3) msg += " В этом месяце можно пересаживать Игоря.";
-  return msg;
+
+// Построение инструкций
+function buildInstructions() {
+  const cond = getSeasonConditions(month);
+  let sunHours = `${cond.hnu[0]}–${cond.hnu[1]} ч`;
+  let tempRange = `${cond.t[0]}–${cond.t[1]}`;
+  
+  // Кормление
+  let feedingInfo = '';
+  let feedingNo = '';
+  if (cond.N.length === 2) feedingInfo = `Можно кормить живыми насекомыми: мухами, комарами, пауками.`;
+  else if (cond.N.length === 1) feedingInfo = "Кормление не требуется — растение готовится к спячке.";
+  else feedingInfo = "Растение в состоянии покоя, кормить не нужно.";
+  
+  feedingNo = "Не давать мясо, хлеб, фрукты, обработанных насекомых и химические вещества.";
+
+  // Полив
+  let wateringInfo = "Использовать только мягкую, дистиллированную или дождевую воду. Почва должна быть влажной, но не залитой. Поливать снизу через поддон.";
+
+  // Пересадка
+  let repotInfo = month === 3 ? "Можно пересаживать в свежий субстрат из торфа и песка." : "Пересадка не рекомендуется.";
+
+  document.getElementById('sunHours').textContent = sunHours;
+  document.getElementById('tempRange').textContent = tempRange;
+  document.getElementById('feedingInfo').textContent = feedingInfo;
+  document.getElementById('feedingNo').textContent = feedingNo;
+  document.getElementById('wateringInfo').textContent = wateringInfo;
+  document.getElementById('repotInfo').textContent = repotInfo;
 }
-document.getElementById('conditions').textContent = buildMessages();
+buildInstructions();
 
 // Слайдеры
 const sliders = ['vPot','temp','fPlant'];
@@ -114,6 +149,7 @@ sliders.forEach(id=>{
   });
 });
 
+// Расчет воды
 function calculateWater() {
   const T=parseFloat(document.getElementById('temp').value);
   const V=parseFloat(document.getElementById('vPot').value);
@@ -124,6 +160,7 @@ function calculateWater() {
   document.getElementById('result').textContent=Math.max(0,Math.round(W))+' мл/сут';
 }
 
+// Сброс значений
 function resetAll() {
   document.getElementById('temp').value=20;
   document.getElementById('tempVal').textContent='20 °C';
