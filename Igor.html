@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Игорь — Условия содержания и полив</title>
+<style>
+body {
+  font-family: 'Verdana', sans-serif;
+  background: #121314;
+  margin: 0;
+  padding: 10px;
+  color: #e0f0c0;
+  overflow-y: auto;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  background: #1e1f20;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+h1 { font-size: 1.8rem; margin-top:0; text-align:center; color:#cde79c; }
+h2 { font-size:1.2rem; margin-bottom:10px; color:#c0df8f; }
+.section { background:#292a2c; padding:15px; border-radius:12px; margin-bottom:20px; }
+pre { white-space: pre-wrap; font-size:0.95rem; line-height:1.4; color:#e0f0c0; }
+label { display:block; margin-bottom:10px; font-weight:bold; font-size:0.95rem; }
+input[type="range"] { width:100%; margin:5px 0 10px; accent-color:#cde79c; }
+.slider-value { text-align:right; font-size:0.9rem; color:#c0df8f; margin-bottom:10px; }
+button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font-weight:bold; font-size:0.95rem; transition:0.3s; }
+.btn-main { background:#7d9d6e; color:#121314; }
+.btn-main:hover { background:#a8c686; }
+.btn-reset { background:#444; color:#e0f0c0; margin-left:10px; }
+.btn-reset:hover { background:#666; }
+#result { font-weight:bold; font-size:1.1rem; margin-top:5px; color:#cde79c; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Игорь — Условия содержания и полив</h1>
+
+  <div class="section">
+    <h2>Условия содержания</h2>
+    <pre id="conditions"></pre>
+  </div>
+
+  <div class="section">
+    <h2>Расчёт потребления воды в сутки</h2>
+
+    <label>Температура содержания (°C)</label>
+    <input type="range" id="temp" min="-5" max="30" step="1" value="20">
+    <div id="tempVal" class="slider-value">20 °C</div>
+
+    <label>Объём горшка (мл)</label>
+    <input type="range" id="vPot" min="50" max="1000" step="10" value="50">
+    <div id="vPotVal" class="slider-value">50 мл</div>
+
+    <label>Фактор растения (0.9–1.1)</label>
+    <input type="range" id="fPlant" min="0.9" max="1.1" step="0.01" value="0.9">
+    <div id="fPlantVal" class="slider-value">0.9</div>
+
+    <div style="display:flex; flex-wrap:wrap; justify-content:space-between;">
+      <button class="btn-main" onclick="calculateWater()">Рассчитать</button>
+      <button class="btn-reset" onclick="resetAll()">Сброс</button>
+    </div>
+
+    <h3>Результат:</h3>
+    <div id="result">—</div>
+  </div>
+</div>
+
+<script>
+// Условия содержания
+const now = new Date();
+const month = now.getMonth() + 1;
+function getSeasonConditions(m) {
+  if (3 <= m && m <= 5) return { hnu: [8,10], t: [15,25], N: [0,1] };
+  if (6 <= m && m <= 8) return { hnu: [12,14], t: [20,30], N: [1,2] };
+  if (9 <= m && m <= 11) return { hnu: [6,8], t: [5,15], N: [0] };
+  return { hnu: [4,6], t: [0,10], N: [] };
+}
+function getSeasonConstants(m) {
+  if (3 <= m && m <= 5) return { hnu: 9, T_season: 20, k_season: 1.0 };
+  if (6 <= m && m <= 8) return { hnu: 13, T_season: 25, k_season: 1.3 };
+  if (9 <= m && m <= 11) return { hnu: 7, T_season: 10, k_season: 0.6 };
+  return { hnu: 5, T_season: 5, k_season: 0.2 };
+}
+const cond = getSeasonConditions(month);
+const consts = getSeasonConstants(month);
+function buildMessages() {
+  let msg = `Игорь должен проводить на солнце ${cond.hnu[0]}–${cond.hnu[1]}ч в день при температуре ${cond.t[0]}–${cond.t[1]}C°. `;
+  if (cond.N.length === 2) msg += `В месяц Игорь должен съедать ${cond.N[0]}–${cond.N[1]} насекомых.`;
+  else if (cond.N.length === 1) msg += "В этом месяце Игоря кормить не надо, он готовится к спячке.";
+  else msg += "Игорь спит, не трогайте его.";
+  if (month === 3) msg += " В этом месяце можно пересаживать Игоря.";
+  return msg;
+}
+document.getElementById('conditions').textContent = buildMessages();
+
+// Слайдеры
+const sliders = ['vPot','temp','fPlant'];
+sliders.forEach(id=>{
+  document.getElementById(id).addEventListener('input',e=>{
+    const valDiv=document.getElementById(id+'Val');
+    if(id==='vPot') valDiv.textContent=e.target.value+' мл';
+    else if(id==='temp') valDiv.textContent=e.target.value+' °C';
+    else valDiv.textContent=e.target.value;
+  });
+});
+
+function calculateWater() {
+  const T=parseFloat(document.getElementById('temp').value);
+  const V=parseFloat(document.getElementById('vPot').value);
+  const f=parseFloat(document.getElementById('fPlant').value);
+  const hnu=consts.hnu;
+  const k=consts.k_season;
+  const W=30*(hnu/10)*(1+0.03*(T-20))*(V/250)*k*f;
+  document.getElementById('result').textContent=Math.max(0,Math.round(W))+' мл/сут';
+}
+
+function resetAll() {
+  document.getElementById('temp').value=20;
+  document.getElementById('tempVal').textContent='20 °C';
+  document.getElementById('vPot').value=50;
+  document.getElementById('vPotVal').textContent='50 мл';
+  document.getElementById('fPlant').value=0.9;
+  document.getElementById('fPlantVal').textContent='0.9';
+  document.getElementById('result').textContent='—';
+}
+</script>
+</body>
+</html>
