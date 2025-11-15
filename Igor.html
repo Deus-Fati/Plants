@@ -13,7 +13,6 @@ body {
   color: #e0f0c0;
   overflow-y: auto;
 }
-
 .container {
   max-width: 600px;
   margin: auto;
@@ -23,7 +22,6 @@ body {
   box-shadow: 0 0 20px rgba(0,0,0,0.3);
   position: relative;
 }
-
 h1 { font-size: 1.8rem; margin-top:0; text-align:center; color:#cde79c; }
 h2 { font-size:1.2rem; margin-bottom:10px; color:#c0df8f; }
 .section { background:#292a2c; padding:15px; border-radius:12px; margin-bottom:20px; }
@@ -37,7 +35,6 @@ button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font
 .btn-reset { background:#444; color:#e0f0c0; margin-left:10px; }
 .btn-reset:hover { background:#666; }
 #result { font-weight:bold; font-size:1.1rem; margin-top:5px; color:#cde79c; }
-
 .instruction p { margin:6px 0; }
 .instruction strong { color:#a8c686; }
 .instruction ul { margin:4px 0 8px 20px; }
@@ -112,15 +109,13 @@ function buildInstructions() {
   const cond = getSeasonConditions(month);
   let sunHours = `${cond.hnu[0]}–${cond.hnu[1]} ч`;
   let tempRange = `${cond.t[0]}–${cond.t[1]}`;
-  
+
   // Кормление
   let feedingInfo = '';
-  let feedingNo = '';
   if (cond.N.length === 2) feedingInfo = `Можно кормить 1-2 раза живыми насекомыми: мухами, комарами и пауками.`;
   else if (cond.N.length === 1) feedingInfo = "Кормление не требуется — растение готовится к спячке.";
   else feedingInfo = "Растение в состоянии покоя, кормить не нужно.";
 
-  
   // Полив
   let wateringInfo = "Использовать только дистиллированную или дождевую воду. Почва должна быть влажной, но не залитой. Поливать снизу через поддон.";
 
@@ -130,7 +125,6 @@ function buildInstructions() {
   document.getElementById('sunHours').textContent = sunHours;
   document.getElementById('tempRange').textContent = tempRange;
   document.getElementById('feedingInfo').textContent = feedingInfo;
-  document.getElementById('feedingNo').textContent = feedingNo;
   document.getElementById('wateringInfo').textContent = wateringInfo;
   document.getElementById('repotInfo').textContent = repotInfo;
 }
