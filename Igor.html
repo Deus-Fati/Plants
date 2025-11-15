@@ -38,6 +38,7 @@ button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font
 .instruction p { margin:6px 0; }
 .instruction strong { color:#a8c686; }
 .instruction ul { margin:4px 0 8px 20px; }
+#plantPhase { text-align:center; font-size:1.1rem; color:#a8c686; margin-bottom:15px; }
 </style>
 </head>
 <body>
@@ -45,6 +46,8 @@ button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font
 <div class="container">
   <h1>Игорь</h1>
   <h1>Условия содержания и полив</h1>
+  <!-- Фаза растения -->
+  <div id="plantPhase"></div>
 
   <!-- Блок условий содержания -->
   <div class="section">
@@ -104,6 +107,14 @@ function getSeasonConstants(m) {
 }
 const consts = getSeasonConstants(month);
 
+// Фаза растения
+function getPlantPhase(m) {
+  if (3 <= m && m <= 5) return "Фаза: Активный рост";
+  if (6 <= m && m <= 8) return "Фаза: Максимальная активность";
+  if (9 <= m && m <= 11) return "Фаза: Подготовка к спячке";
+  return "Фаза: Спячка";
+}
+
 // Построение инструкций
 function buildInstructions() {
   const cond = getSeasonConditions(month);
@@ -113,7 +124,7 @@ function buildInstructions() {
   // Кормление
   let feedingInfo = '';
   if (cond.N.length === 2) feedingInfo = `Можно кормить 1-2 раза живыми насекомыми: мухами, комарами и пауками.`;
-  else if (cond.N.length === 1) feedingInfo = "Кормление не требуется — растение готовится к спячке.";
+  else if (cond.N.length === 1) feedingInfo = "Можно покормить 1 раз — растение готовится к спячке.";
   else feedingInfo = "Растение в состоянии покоя, кормить не нужно.";
 
   // Полив
@@ -121,6 +132,10 @@ function buildInstructions() {
 
   // Пересадка
   let repotInfo = month === 3 ? "Можно пересаживать в свежий субстрат из торфа и песка." : "В этот период пересадка не рекомендуется.";
+
+  // Фаза
+  const phase = getPlantPhase(month);
+  document.getElementById('plantPhase').textContent = phase;
 
   document.getElementById('sunHours').textContent = sunHours;
   document.getElementById('tempRange').textContent = tempRange;
