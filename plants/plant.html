@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Растение</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="../index.html">&larr; Назад к списку</a>
+    <h1 id="plantName">—</h1>
+    <h1>Условия содержания</h1>
+
+    <div id="plantPhase"></div>
+
+    <div class="section">
+      <h2>Условия содержания</h2>
+      <div id="conditions" class="instruction">
+        <p><strong>Свет:</strong> <span id="sunHours"></span></p>
+        <p><strong>Температура:</strong> <span id="tempRange"></span> °C</p>
+        <p><strong>Кормление:</strong> <span id="feedingInfo"></span></p>
+        <p><strong>Полив:</strong> <span id="wateringInfo"></span></p>
+        <p><strong>Пересадка:</strong> <span id="repotInfo"></span></p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Расчёт потребления воды в сутки</h2>
+
+      <label>Температура содержания (°C)</label>
+      <input type="range" id="temp" min="-5" max="30" step="1" value="20">
+      <div id="tempVal" class="slider-value">20 °C</div>
+
+      <label>Объём горшка (мл)</label>
+      <input type="range" id="vPot" min="50" max="1000" step="10" value="50">
+      <div id="vPotVal" class="slider-value">50 мл</div>
+
+      <label>Фактор растения (0.9–1.1)</label>
+      <input type="range" id="fPlant" min="0.9" max="1.1" step="0.01" value="0.9">
+      <div id="fPlantVal" class="slider-value">0.9</div>
+
+      <div class="buttons">
+        <button class="btn-main" id="btnCalc">Рассчитать</button>
+        <button class="btn-reset" id="btnReset">Сбросить</button>
+      </div>
+
+      <h3>Результат:</h3>
+      <div id="result">—</div>
+    </div>
+  </div>
+
+  <script src="../assets/plant.js"></script>
+</body>
+</html>

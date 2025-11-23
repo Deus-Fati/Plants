@@ -1,0 +1,76 @@
+body {
+  font-family: 'Verdana', sans-serif;
+  background: #121314;
+  margin: 0;
+  padding: 10px;
+  color: #e0f0c0;
+  overflow-y: auto;
+}
+.container {
+  max-width: 600px;
+  width: 90%;   /* адаптивно под маленькие экраны */
+  margin: 20px auto;
+  background: #1e1f20;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  position: relative;
+}
+a.back { display:inline-block; margin-bottom:10px; color:#cde79c; text-decoration:none; }
+h1 { font-size: 1.8rem; margin-top:0; text-align:center; color:#cde79c; }
+h2 { font-size:1.2rem; margin-bottom:10px; color:#c0df8f; }
+.section { background:#292a2c; padding:15px; border-radius:12px; margin-bottom:20px; }
+label { display:block; margin-bottom:10px; font-weight:bold; font-size:0.95rem; }
+input[type="range"] { width:100%; margin:5px 0 10px; accent-color:#cde79c; }
+.slider-value { text-align:right; font-size:0.9rem; color:#c0df8f; margin-bottom:10px; }
+button { padding:10px 16px; border-radius:8px; border:none; cursor:pointer; font-weight:bold; font-size:0.95rem; transition:0.3s; }
+.btn-main { background:#7d9d6e; color:#121314; }
+.btn-main:hover { background:#a8c686; }
+.btn-reset { background:#444; color:#e0f0c0; margin-left:10px; }
+.btn-reset:hover { background:#666; }
+#result { font-weight:bold; font-size:1.1rem; margin-top:5px; color:#cde79c; }
+.instruction p { margin:6px 0; }
+.instruction strong { color:#a8c686; }
+.instruction ul { margin:4px 0 8px 20px; }
+#plantPhase { text-align:center; font-size:1.1rem; color:#a8c686; margin-bottom:15px; }
+.plant-list { list-style:none; padding:0; margin:0; display:flex; flex-wrap:wrap; gap:8px; }
+.plant-list li { background:#232323; padding:10px 14px; border-radius:8px; }
+.plant-list a { color:#cde79c; text-decoration:none; font-weight:600; }
+.buttons { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; }
+.plant-list-vertical {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.plant-list-vertical li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #232323;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+}
+
+.plant-list-vertical .info {
+  display: flex;
+  flex-direction: column;
+}
+
+.plant-list-vertical .info span.name {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.plant-list-vertical .info span.species {
+  font-size: 0.95rem;
+  color: #c0df8f;
+}
+
+.plant-list-vertical img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
